@@ -81,9 +81,9 @@ function HomeScreen({ navigate }) {
         <div style={{ position: 'absolute', top: -20, right: -20, width: 100, height: 100, background: 'radial-gradient(circle, rgba(76,175,80,0.15) 0%, transparent 70%)', borderRadius: '50%' }} />
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
           <div>
-            <div style={{ color: '#A5D6A7', fontSize: 12, fontWeight: 600 }}>Good morning 👋</div>
-            <div style={{ color: 'white', fontSize: 20, fontWeight: 800, marginTop: 2 }}>Adebayo Emmanuel</div>
-            <div style={{ color: '#81C784', fontSize: 12, marginTop: 3 }}>Oyo State  •  3.5 Hectares</div>
+            <div style={{ color: '#90B8E0', fontSize: 12, fontWeight: 600 }}>Good morning 👋</div>
+            <div style={{ color: 'white', fontSize: 20, fontWeight: 800, marginTop: 2 }}>Oluwayinka Olayinka Paul</div>
+            <div style={{ color: '#A8C4E8', fontSize: 12, marginTop: 3 }}>Lagos State  •  3.5 Hectares</div>
           </div>
           <button onClick={() => navigate('profile')} style={{ background: 'rgba(255,255,255,0.12)', border: 'none', borderRadius: '50%', width: 40, height: 40, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
             <Icon name="bell" size={20} color="white" />
@@ -92,8 +92,8 @@ function HomeScreen({ navigate }) {
         {/* Weather */}
         <div style={{ background: 'rgba(255,255,255,0.1)', borderRadius: 10, padding: '8px 12px', marginTop: 12, display: 'flex', alignItems: 'center', gap: 8 }}>
           <Icon name="sun" size={16} color="#FDD835" />
-          <span style={{ color: 'white', fontSize: 12, flex: 1 }}>32°C  •  Ibadan  •  Low disease risk today</span>
-          <Icon name="chevron" size={14} color="#81C784" />
+          <span style={{ color: 'white', fontSize: 12, flex: 1 }}>32°C  •  Lagos  •  Low disease risk today</span>
+          <Icon name="chevron" size={14} color="#A8C4E8" />
         </div>
       </div>
 
@@ -113,7 +113,7 @@ function HomeScreen({ navigate }) {
         </div>
 
         {/* Scan CTA */}
-        <button onClick={() => navigate('scan')} style={{ width: '100%', background: 'linear-gradient(135deg, var(--green) 0%, #1a4a1c 100%)', border: 'none', borderRadius: 'var(--radius-lg)', padding: '18px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', cursor: 'pointer', marginBottom: 16, boxShadow: 'var(--shadow-lg)' }}>
+        <div style={{ background: 'linear-gradient(135deg, var(--green) 0%, #001F5B 100%)', border: 'none', borderRadius: 'var(--radius-lg)', padding: '18px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', cursor: 'pointer', marginBottom: 16, boxShadow: 'var(--shadow-lg)' }}>
           <div style={{ textAlign: 'left' }}>
             <div style={{ color: 'white', fontSize: 18, fontWeight: 800 }}>Scan Your Plant</div>
             <div style={{ color: 'rgba(255,255,255,0.75)', fontSize: 12, marginTop: 4, lineHeight: 1.5 }}>Upload a photo for instant AI<br />disease detection & advice</div>
@@ -199,7 +199,7 @@ function ScanScreen({ navigate, setAnalyzing }) {
     <div className="screen fade-in">
       <div className="screen-header">
         <div style={{ color: 'white', fontSize: 20, fontWeight: 800 }}>Scan Plant</div>
-        <div style={{ color: '#81C784', fontSize: 12, marginTop: 2 }}>Take or upload a cassava leaf photo</div>
+        <div style={{ color: '#A8C4E8', fontSize: 12, marginTop: 2 }}>Take or upload a cassava leaf photo</div>
       </div>
       <div className="content">
         {/* Viewfinder */}
@@ -259,7 +259,7 @@ function AnalyzingScreen() {
         <div style={{ width: 64, height: 64, borderRadius: '50%', background: 'rgba(76,175,80,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 30 }}>🔬</div>
       </div>
       <div style={{ color: 'white', fontSize: 22, fontWeight: 800 }}>Analyzing Plant...</div>
-      <div style={{ color: '#81C784', fontSize: 13, animation: 'blink 1.2s ease-in-out infinite' }}>AI model processing image</div>
+      <div style={{ color: '#A8C4E8', fontSize: 13, animation: 'blink 1.2s ease-in-out infinite' }}>AI model processing image</div>
       <div style={{ display: 'flex', gap: 8, marginTop: 8 }}>
         {[0, 1, 2].map(i => (
           <div key={i} style={{ width: 8, height: 8, borderRadius: '50%', background: 'var(--green-light)', animation: `pulse 1.2s ease-in-out ${i * 0.2}s infinite` }} />
@@ -293,7 +293,7 @@ function DiagnosisScreen({ navigate, diseaseId }) {
         <div style={{ padding: '0 18px 20px' }}>
           <span className={`chip ${d.sevClass}`} style={{ marginBottom: 10, display: 'inline-flex' }}>{d.severity === 'None' ? '✅ Healthy' : `⚠️ ${d.severity}`}</span>
           <div style={{ color: 'white', fontSize: 22, fontWeight: 900, lineHeight: 1.2 }}>{d.name}</div>
-          <div style={{ color: '#81C784', fontSize: 12, marginTop: 4 }}>{d.shortName}</div>
+          <div style={{ color: '#A8C4E8', fontSize: 12, marginTop: 4 }}>{d.shortName}</div>
           <div style={{ marginTop: 12 }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
               <span style={{ color: 'rgba(255,255,255,0.7)', fontSize: 12 }}>AI Confidence</span>
@@ -372,7 +372,7 @@ function TreatmentScreen({ navigate, diseaseId }) {
           <button className="back-btn" onClick={() => navigate('diagnosis', { diseaseId })}>←</button>
           <div style={{ textAlign: 'center' }}>
             <div style={{ color: 'white', fontWeight: 800 }}>Treatment Plan</div>
-            <div style={{ color: '#81C784', fontSize: 12 }}>{d.shortName}</div>
+            <div style={{ color: '#A8C4E8', fontSize: 12 }}>{d.shortName}</div>
           </div>
           <div style={{ width: 36 }} />
         </div>
@@ -467,7 +467,7 @@ function ProductsScreen({ navigate, diseaseId }) {
           {navigate && <button className="back-btn" onClick={() => navigate('home')}>←</button>}
           <div>
             <div style={{ color: 'white', fontSize: 18, fontWeight: 800 }}>FMN Products</div>
-            <div style={{ color: '#81C784', fontSize: 12 }}>Agrochemicals & Fertilizers</div>
+            <div style={{ color: '#A8C4E8', fontSize: 12 }}>Agrochemicals & Fertilizers</div>
           </div>
         </div>
       </div>
@@ -542,14 +542,14 @@ function RemindersScreen() {
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <div>
             <div style={{ color: 'white', fontSize: 20, fontWeight: 800 }}>Reminders</div>
-            <div style={{ color: '#81C784', fontSize: 12, marginTop: 2 }}>{active} active tasks</div>
+            <div style={{ color: '#A8C4E8', fontSize: 12, marginTop: 2 }}>{active} active tasks</div>
           </div>
           <button onClick={() => setShowAdd(true)} style={{ width: 40, height: 40, borderRadius: '50%', background: 'rgba(255,255,255,0.15)', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <Icon name="plus" size={22} color="white" />
           </button>
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 8, marginTop: 12 }}>
-          {[{ l: 'Active', v: active, c: 'var(--green-light)' }, { l: 'Paused', v: reminders.length - active, c: '#81C784' }, { l: 'Due Today', v: reminders.filter(r => r.nextDue === 'Today' && r.enabled).length, c: '#FFD54F' }].map(s => (
+          {[{ l: 'Active', v: active, c: 'var(--green-light)' }, { l: 'Paused', v: reminders.length - active, c: '#A8C4E8' }, { l: 'Due Today', v: reminders.filter(r => r.nextDue === 'Today' && r.enabled).length, c: '#FFD54F' }].map(s => (
             <div key={s.l} className="card" style={{ textAlign: 'center', padding: '10px 8px' }}>
               <div style={{ fontSize: 20, fontWeight: 800, color: s.c }}>{s.v}</div>
               <div style={{ fontSize: 10, color: 'var(--text-3)' }}>{s.l}</div>
@@ -639,14 +639,14 @@ function HistoryScreen({ navigate }) {
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
           <div>
             <div style={{ color: 'white', fontSize: 20, fontWeight: 800 }}>Scan History</div>
-            <div style={{ color: '#81C784', fontSize: 12, marginTop: 2 }}>{HISTORY.length} total diagnoses</div>
+            <div style={{ color: '#A8C4E8', fontSize: 12, marginTop: 2 }}>{HISTORY.length} total diagnoses</div>
           </div>
           <button style={{ background: 'rgba(255,255,255,0.12)', border: 'none', borderRadius: 'var(--radius-full)', width: 38, height: 38, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
             <Icon name="download" size={18} color="white" />
           </button>
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 6 }}>
-          {[{ l: 'Total', v: HISTORY.length, c: 'var(--green-light)' }, { l: 'Diseases', v: HISTORY.filter(h => diseaseIds.includes(h.diseaseId)).length, c: '#FFD54F' }, { l: 'Healthy', v: HISTORY.filter(h => h.diseaseId === 'healthy').length, c: '#A5D6A7' }, { l: 'Treated', v: HISTORY.filter(h => h.treated).length, c: '#CE93D8' }].map(s => (
+          {[{ l: 'Total', v: HISTORY.length, c: 'var(--green-light)' }, { l: 'Diseases', v: HISTORY.filter(h => diseaseIds.includes(h.diseaseId)).length, c: '#FFD54F' }, { l: 'Healthy', v: HISTORY.filter(h => h.diseaseId === 'healthy').length, c: '#90B8E0' }, { l: 'Treated', v: HISTORY.filter(h => h.treated).length, c: '#CE93D8' }].map(s => (
             <div key={s.l} className="card" style={{ textAlign: 'center', padding: '8px 4px' }}>
               <div style={{ fontSize: 18, fontWeight: 800, color: s.c }}>{s.v}</div>
               <div style={{ fontSize: 9, color: 'var(--text-3)' }}>{s.l}</div>
@@ -695,7 +695,7 @@ function DealersScreen({ navigate }) {
           <button className="back-btn" onClick={() => navigate('home')}>←</button>
           <div>
             <div style={{ color: 'white', fontSize: 18, fontWeight: 800 }}>Find FMN Dealer</div>
-            <div style={{ color: '#81C784', fontSize: 12 }}>{DEALERS.length} dealers near you</div>
+            <div style={{ color: '#A8C4E8', fontSize: 12 }}>{DEALERS.length} dealers near you</div>
           </div>
         </div>
       </div>
@@ -709,7 +709,7 @@ function DealersScreen({ navigate }) {
         ))}
         <div style={{ background: 'rgba(255,255,255,0.9)', borderRadius: 'var(--radius)', padding: '8px 14px', textAlign: 'center' }}>
           <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--green)' }}>📍 Your Location</div>
-          <div style={{ fontSize: 11, color: 'var(--text-3)' }}>Ibadan, Oyo State</div>
+          <div style={{ fontSize: 11, color: 'var(--text-3)' }}>Lagos, Lagos State</div>
         </div>
       </div>
 
@@ -764,9 +764,9 @@ function ProfileScreen() {
     <div className="screen fade-in">
       <div style={{ background: 'var(--green-dark)', padding: '20px 18px 24px', textAlign: 'center' }}>
         <div style={{ width: 80, height: 80, borderRadius: '50%', background: 'rgba(255,255,255,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 10px', fontSize: 44, border: '3px solid var(--green-light)' }}>👨🏾‍🌾</div>
-        <div style={{ color: 'white', fontSize: 20, fontWeight: 800 }}>Adebayo Emmanuel</div>
-        <div style={{ color: '#81C784', fontSize: 13, marginTop: 4 }}>+234 802 345 6789</div>
-        <div style={{ color: '#81C784', fontSize: 13, marginTop: 3 }}>📍 Ibadan North, Oyo State</div>
+        <div style={{ color: 'white', fontSize: 20, fontWeight: 800 }}>Oluwayinka Olayinka Paul</div>
+        <div style={{ color: '#A8C4E8', fontSize: 13, marginTop: 4 }}>+234 802 345 6789</div>
+        <div style={{ color: '#A8C4E8', fontSize: 13, marginTop: 3 }}>📍 Lagos, Lagos State</div>
         <div style={{ background: 'rgba(255,255,255,0.1)', borderRadius: 'var(--radius-full)', padding: '5px 14px', display: 'inline-flex', alignItems: 'center', gap: 6, marginTop: 10 }}>
           <Icon name="star" size={14} color="#FFD54F" />
           <span style={{ color: 'white', fontSize: 12, fontWeight: 600 }}>FMN Farmer  •  Since Jan 2025</span>
@@ -795,7 +795,7 @@ function ProfileScreen() {
               <Icon name="edit" size={14} color="var(--green)" /> Edit
             </button>
           </div>
-          {[['State', 'Oyo State'], ['LGA', 'Ibadan North'], ['Farm Size', '3.5 Hectares'], ['Crops', 'Cassava, Maize, Soybean']].map(([l, v]) => (
+          {[['State', 'Lagos State'], ['LGA', 'Lagos Island'], ['Farm Size', '3.5 Hectares'], ['Crops', 'Cassava, Maize, Soybean']].map(([l, v]) => (
             <div key={l} style={{ display: 'flex', alignItems: 'center', padding: '9px 0', borderBottom: '1px solid var(--border)' }}>
               <span style={{ flex: 1, fontSize: 13, color: 'var(--text-2)' }}>{l}</span>
               <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--text)' }}>{v}</span>
