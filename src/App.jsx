@@ -113,7 +113,7 @@ function HomeScreen({ navigate }) {
         </div>
 
         {/* Scan CTA */}
-        <div style={{ background: 'linear-gradient(135deg, var(--green) 0%, #001F5B 100%)', border: 'none', borderRadius: 'var(--radius-lg)', padding: '18px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', cursor: 'pointer', marginBottom: 16, boxShadow: 'var(--shadow-lg)' }}>
+        <button onClick={() => navigate('scan')} style={{ width: '100%', background: 'linear-gradient(135deg, var(--green) 0%, #001F5B 100%)', border: 'none', borderRadius: 'var(--radius-lg)', padding: '18px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', cursor: 'pointer', marginBottom: 16, boxShadow: 'var(--shadow-lg)' }}>
           <div style={{ textAlign: 'left' }}>
             <div style={{ color: 'white', fontSize: 18, fontWeight: 800 }}>Scan Your Plant</div>
             <div style={{ color: 'rgba(255,255,255,0.75)', fontSize: 12, marginTop: 4, lineHeight: 1.5 }}>Upload a photo for instant AI<br />disease detection & advice</div>
