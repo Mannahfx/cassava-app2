@@ -83,7 +83,7 @@ function HomeScreen({ navigate }) {
           <div>
             <div style={{ color: '#90B8E0', fontSize: 12, fontWeight: 600 }}>Good morning 👋</div>
             <div style={{ color: 'white', fontSize: 20, fontWeight: 800, marginTop: 2 }}>Oluwayinka Olayinka Paul</div>
-            <div style={{ color: '#A8C4E8', fontSize: 12, marginTop: 3 }}>Lagos State  •  3.5 Hectares</div>
+            <div style={{ color: '#A8C4E8', fontSize: 12, marginTop: 3 }}>Ogun State  •  3.5 Hectares</div>
           </div>
           <button onClick={() => navigate('profile')} style={{ background: 'rgba(255,255,255,0.12)', border: 'none', borderRadius: '50%', width: 40, height: 40, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
             <Icon name="bell" size={20} color="white" />
@@ -709,7 +709,7 @@ function DealersScreen({ navigate }) {
         ))}
         <div style={{ background: 'rgba(255,255,255,0.9)', borderRadius: 'var(--radius)', padding: '8px 14px', textAlign: 'center' }}>
           <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--green)' }}>📍 Your Location</div>
-          <div style={{ fontSize: 11, color: 'var(--text-3)' }}>Lagos, Lagos State</div>
+          <div style={{ fontSize: 11, color: 'var(--text-3)' }}>Ogun State, FUNAAB</div>
         </div>
       </div>
 
@@ -752,21 +752,62 @@ function DealersScreen({ navigate }) {
 function ProfileScreen() {
   const [notif, setNotif] = useState(true)
   const [offline, setOffline] = useState(false)
-  const [location, setLocation] = useState(true)
+  const [locationSvc, setLocationSvc] = useState(true)
+  const [modal, setModal] = useState(null) // 'edit' | 'about' | 'privacy' | 'support' | 'rate' | 'share'
+  const [rating, setRating] = useState(0)
+  const [ratingDone, setRatingDone] = useState(false)
+  const [copied, setCopied] = useState(false)
+  const [saved, setSaved] = useState(false)
+
+  const [profile, setProfile] = useState({
+    name: 'Oluwayinka Olayinka Paul',
+    phone: '+234 8101773538',
+    location: 'Ogun State, FUNAAB',
+    state: 'Ogun State',
+    lga: 'Abeokuta South',
+    farmSize: '3.5 Hectares',
+    crops: 'Cassava, Maize, Soybean',
+  })
+  const [editForm, setEditForm] = useState({ ...profile })
 
   const Toggle = ({ val, set }) => (
-    <button onClick={() => set(!val)} style={{ width: 44, height: 26, borderRadius: 13, background: val ? 'var(--green-light)' : 'var(--border)', border: 'none', cursor: 'pointer', position: 'relative', transition: 'background 0.2s' }}>
+    <button onClick={() => set(!val)} style={{ width: 44, height: 26, borderRadius: 13, background: val ? 'var(--green-light)' : 'var(--border)', border: 'none', cursor: 'pointer', position: 'relative', transition: 'background 0.2s', flexShrink: 0 }}>
       <div style={{ width: 20, height: 20, borderRadius: '50%', background: 'white', position: 'absolute', top: 3, left: val ? 21 : 3, transition: 'left 0.2s', boxShadow: '0 1px 4px rgba(0,0,0,0.2)' }} />
     </button>
   )
 
+  const Modal = ({ children, title, onClose }) => (
+    <div onClick={onClose} style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'flex-end', zIndex: 200 }}>
+      <div onClick={e => e.stopPropagation()} style={{ background: 'white', borderRadius: '20px 20px 0 0', width: '100%', maxHeight: '85%', overflowY: 'auto', padding: 20 }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
+          <span style={{ fontSize: 17, fontWeight: 800 }}>{title}</span>
+          <button onClick={onClose} style={{ background: '#F0F0F0', border: 'none', borderRadius: '50%', width: 32, height: 32, cursor: 'pointer', fontSize: 16, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>✕</button>
+        </div>
+        {children}
+      </div>
+    </div>
+  )
+
+  const Field = ({ label, field, placeholder }) => (
+    <div style={{ marginBottom: 14 }}>
+      <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--text-3)', marginBottom: 5, textTransform: 'uppercase', letterSpacing: 0.5 }}>{label}</div>
+      <input
+        value={editForm[field]}
+        onChange={e => setEditForm(p => ({ ...p, [field]: e.target.value }))}
+        placeholder={placeholder}
+        style={{ width: '100%', padding: '11px 14px', borderRadius: 10, border: '1.5px solid var(--border)', fontFamily: 'var(--font)', fontSize: 14, outline: 'none', background: '#FAFAFA' }}
+      />
+    </div>
+  )
+
   return (
-    <div className="screen fade-in">
+    <div className="screen fade-in" style={{ position: 'relative' }}>
+      {/* Header */}
       <div style={{ background: 'var(--green-dark)', padding: '20px 18px 24px', textAlign: 'center' }}>
         <div style={{ width: 80, height: 80, borderRadius: '50%', background: 'rgba(255,255,255,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 10px', fontSize: 44, border: '3px solid var(--green-light)' }}>👨🏾‍🌾</div>
-        <div style={{ color: 'white', fontSize: 20, fontWeight: 800 }}>Oluwayinka Olayinka Paul</div>
-        <div style={{ color: '#A8C4E8', fontSize: 13, marginTop: 4 }}>+234 802 345 6789</div>
-        <div style={{ color: '#A8C4E8', fontSize: 13, marginTop: 3 }}>📍 Lagos, Lagos State</div>
+        <div style={{ color: 'white', fontSize: 20, fontWeight: 800 }}>{profile.name}</div>
+        <div style={{ color: '#A8C4E8', fontSize: 13, marginTop: 4 }}>{profile.phone}</div>
+        <div style={{ color: '#A8C4E8', fontSize: 13, marginTop: 3 }}>📍 {profile.location}</div>
         <div style={{ background: 'rgba(255,255,255,0.1)', borderRadius: 'var(--radius-full)', padding: '5px 14px', display: 'inline-flex', alignItems: 'center', gap: 6, marginTop: 10 }}>
           <Icon name="star" size={14} color="#FFD54F" />
           <span style={{ color: 'white', fontSize: 12, fontWeight: 600 }}>FMN Farmer  •  Since Jan 2025</span>
@@ -775,7 +816,7 @@ function ProfileScreen() {
 
       {/* Stats */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 8, background: 'var(--green-dark)', padding: '0 14px 16px' }}>
-        {[{ l: 'Total Scans', v: HISTORY.length, c: 'var(--green-light)' }, { l: 'Treated', v: HISTORY.filter(h => h.treated).length, c: '#CE93D8' }, { l: 'Farm Size', v: '3.5ha', c: '#FFD54F' }].map(s => (
+        {[{ l: 'Total Scans', v: HISTORY.length, c: 'var(--green-light)' }, { l: 'Treated', v: HISTORY.filter(h => h.treated).length, c: '#CE93D8' }, { l: 'Farm Size', v: profile.farmSize.replace(' Hectares','ha'), c: '#FFD54F' }].map(s => (
           <div key={s.l} className="card" style={{ textAlign: 'center', padding: 10 }}>
             <div style={{ fontSize: 18, fontWeight: 800, color: s.c }}>{s.v}</div>
             <div style={{ fontSize: 10, color: 'var(--text-3)' }}>{s.l}</div>
@@ -791,14 +832,14 @@ function ProfileScreen() {
               <Icon name="leaf" size={18} color="var(--green)" />
               <span style={{ fontWeight: 800, fontSize: 14 }}>Farm Details</span>
             </div>
-            <button style={{ display: 'flex', alignItems: 'center', gap: 4, background: 'none', border: 'none', cursor: 'pointer', color: 'var(--green)', fontWeight: 700, fontSize: 12, fontFamily: 'var(--font)' }}>
-              <Icon name="edit" size={14} color="var(--green)" /> Edit
+            <button onClick={() => { setEditForm({ ...profile }); setModal('edit') }} style={{ display: 'flex', alignItems: 'center', gap: 4, background: 'var(--green-pale)', border: '1.5px solid var(--green-border)', borderRadius: 20, padding: '4px 12px', cursor: 'pointer', color: 'var(--green)', fontWeight: 700, fontSize: 12, fontFamily: 'var(--font)' }}>
+              <Icon name="edit" size={13} color="var(--green)" /> Edit
             </button>
           </div>
-          {[['State', 'Lagos State'], ['LGA', 'Lagos Island'], ['Farm Size', '3.5 Hectares'], ['Crops', 'Cassava, Maize, Soybean']].map(([l, v]) => (
+          {[['Name', profile.name], ['Phone', profile.phone], ['State', profile.state], ['LGA', profile.lga], ['Farm Size', profile.farmSize], ['Crops', profile.crops]].map(([l, v]) => (
             <div key={l} style={{ display: 'flex', alignItems: 'center', padding: '9px 0', borderBottom: '1px solid var(--border)' }}>
               <span style={{ flex: 1, fontSize: 13, color: 'var(--text-2)' }}>{l}</span>
-              <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--text)' }}>{v}</span>
+              <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--text)', textAlign: 'right', maxWidth: '60%' }}>{v}</span>
             </div>
           ))}
         </div>
@@ -809,7 +850,7 @@ function ProfileScreen() {
             <Icon name="settings" size={18} color="var(--green)" />
             <span style={{ fontWeight: 800, fontSize: 14 }}>App Settings</span>
           </div>
-          {[['Push Notifications', 'Reminders and alerts', notif, setNotif], ['Offline Mode', 'Use AI without internet', offline, setOffline], ['Location Services', 'For dealer search', location, setLocation]].map(([l, s, v, set]) => (
+          {[['Push Notifications', 'Reminders and alerts', notif, setNotif], ['Offline Mode', 'Use AI without internet', offline, setOffline], ['Location Services', 'For dealer search', locationSvc, setLocationSvc]].map(([l, s, v, set]) => (
             <div key={l} style={{ display: 'flex', alignItems: 'center', padding: '10px 0', borderBottom: '1px solid var(--border)', gap: 10 }}>
               <div style={{ flex: 1 }}>
                 <div style={{ fontSize: 13, fontWeight: 700 }}>{l}</div>
@@ -822,9 +863,9 @@ function ProfileScreen() {
 
         {/* Links */}
         <div className="card">
-          {[['About FMN AgriSense', 'ℹ️'], ['Privacy Policy', '🔒'], ['Contact FMN Support', '🎧'], ['Rate the App', '⭐'], ['Share with Farmers', '📤']].map(([l, e], i, arr) => (
-            <button key={l} style={{ width: '100%', display: 'flex', alignItems: 'center', gap: 12, padding: '12px 0', borderBottom: i < arr.length - 1 ? '1px solid var(--border)' : 'none', background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left', borderBottom: i < arr.length - 1 ? '1px solid var(--border)' : 'none', fontFamily: 'var(--font)' }}>
-              <span style={{ fontSize: 20 }}>{e}</span>
+          {[['About FMN AgriSense', 'ℹ️', 'about'], ['Privacy Policy', '🔒', 'privacy'], ['Contact FMN Support', '🎧', 'support'], ['Rate the App', '⭐', 'rate'], ['Share with Farmers', '📤', 'share']].map(([l, e, key], i, arr) => (
+            <button key={l} onClick={() => setModal(key)} style={{ width: '100%', display: 'flex', alignItems: 'center', gap: 12, padding: '13px 0', borderBottom: i < arr.length - 1 ? '1px solid var(--border)' : 'none', background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left', fontFamily: 'var(--font)' }}>
+              <span style={{ fontSize: 22 }}>{e}</span>
               <span style={{ flex: 1, fontSize: 14, color: 'var(--text)' }}>{l}</span>
               <Icon name="chevron" size={16} color="var(--text-4)" />
             </button>
@@ -835,6 +876,156 @@ function ProfileScreen() {
           FMN AgriSense  •  Version 1.0.0<br />Built for FMN Innovation 5.0  •  March 2026
         </div>
       </div>
+
+      {/* ── EDIT MODAL ── */}
+      {modal === 'edit' && (
+        <Modal title="✏️ Edit Profile" onClose={() => setModal(null)}>
+          <Field label="Full Name" field="name" placeholder="Your full name" />
+          <Field label="Phone Number" field="phone" placeholder="+234 ..." />
+          <Field label="Location" field="location" placeholder="e.g. Ogun State, FUNAAB" />
+          <Field label="State" field="state" placeholder="e.g. Ogun State" />
+          <Field label="LGA" field="lga" placeholder="e.g. Abeokuta South" />
+          <Field label="Farm Size" field="farmSize" placeholder="e.g. 3.5 Hectares" />
+          <Field label="Crops Grown" field="crops" placeholder="e.g. Cassava, Maize" />
+          <button
+            onClick={() => { setProfile({ ...editForm }); setSaved(true); setTimeout(() => setSaved(false), 2000); setModal(null) }}
+            style={{ width: '100%', padding: '13px', background: 'var(--green)', color: 'white', border: 'none', borderRadius: 12, fontFamily: 'var(--font)', fontSize: 15, fontWeight: 800, cursor: 'pointer', marginTop: 4 }}>
+            {saved ? '✅ Saved!' : 'Save Changes'}
+          </button>
+        </Modal>
+      )}
+
+      {/* ── ABOUT MODAL ── */}
+      {modal === 'about' && (
+        <Modal title="ℹ️ About FMN AgriSense" onClose={() => setModal(null)}>
+          <div style={{ textAlign: 'center', marginBottom: 16 }}>
+            <div style={{ fontSize: 56, marginBottom: 8 }}>🌿</div>
+            <div style={{ fontSize: 18, fontWeight: 800, color: 'var(--green-dark)' }}>FMN AgriSense</div>
+            <div style={{ fontSize: 13, color: 'var(--text-3)', marginTop: 4 }}>Version 1.0.0  •  FMN Innovation 5.0</div>
+          </div>
+          {[['🎯 Purpose', 'AI-powered cassava disease detection app helping Nigerian farmers diagnose plant diseases instantly and get expert treatment advice.'],
+            ['🤖 AI Technology', 'Uses deep learning computer vision trained on thousands of cassava leaf images to detect diseases with up to 97% accuracy.'],
+            ['🌍 Impact', 'Designed specifically for Nigerian farmers to reduce crop losses, increase yields, and improve livelihoods through technology.'],
+            ['🏆 Competition', 'Built for FMN Innovation 5.0 — empowering farmers with precision agriculture tools.'],
+          ].map(([t, d]) => (
+            <div key={t} style={{ background: 'var(--green-pale)', borderRadius: 12, padding: 14, marginBottom: 10 }}>
+              <div style={{ fontWeight: 800, fontSize: 13, marginBottom: 5 }}>{t}</div>
+              <div style={{ fontSize: 13, color: 'var(--text-2)', lineHeight: 1.6 }}>{d}</div>
+            </div>
+          ))}
+          <div style={{ fontSize: 11, color: 'var(--text-4)', textAlign: 'center', marginTop: 8 }}>© 2026 Flour Mills of Nigeria. All rights reserved.</div>
+        </Modal>
+      )}
+
+      {/* ── PRIVACY MODAL ── */}
+      {modal === 'privacy' && (
+        <Modal title="🔒 Privacy Policy" onClose={() => setModal(null)}>
+          {[['Data We Collect', 'We collect farm location, crop photos, and usage data to improve disease detection accuracy. No personal financial data is collected.'],
+            ['How We Use Your Data', 'Your plant scan images are processed by our AI model to provide disease diagnosis. Images may be used anonymously to improve the model.'],
+            ['Data Security', 'All data is encrypted in transit and at rest. We use industry-standard security practices to protect your information.'],
+            ['Your Rights', 'You can request deletion of your data at any time by contacting FMN support. You control what data you share.'],
+            ['Third Parties', 'We do not sell your personal data to third parties. Weather data is sourced from licensed providers.'],
+          ].map(([t, d]) => (
+            <div key={t} style={{ marginBottom: 14, paddingBottom: 14, borderBottom: '1px solid var(--border)' }}>
+              <div style={{ fontWeight: 800, fontSize: 13, marginBottom: 5, color: 'var(--green-dark)' }}>{t}</div>
+              <div style={{ fontSize: 13, color: 'var(--text-2)', lineHeight: 1.6 }}>{d}</div>
+            </div>
+          ))}
+          <div style={{ fontSize: 11, color: 'var(--text-4)', textAlign: 'center' }}>Last updated: March 2026</div>
+        </Modal>
+      )}
+
+      {/* ── SUPPORT MODAL ── */}
+      {modal === 'support' && (
+        <Modal title="🎧 Contact FMN Support" onClose={() => setModal(null)}>
+          <div style={{ background: 'var(--green-pale)', borderRadius: 14, padding: 16, textAlign: 'center', marginBottom: 16 }}>
+            <div style={{ fontSize: 40, marginBottom: 8 }}>👨🏾‍💼</div>
+            <div style={{ fontWeight: 800, fontSize: 15 }}>FMN AgriSense Support</div>
+            <div style={{ fontSize: 13, color: 'var(--text-3)', marginTop: 4 }}>Available Mon–Fri, 8am–5pm</div>
+          </div>
+          {[['📞 Call Us', '0800-FMN-FARM (0800-366-3276)', 'Toll-free hotline'],
+            ['📧 Email', 'agrisense@fmnplc.com', 'Response within 24 hours'],
+            ['💬 WhatsApp', '+234 803 FMN HELP', 'Chat with an agronomist'],
+            ['🏢 Visit Us', '1 Golden Penny Place, Lagos', 'FMN Head Office'],
+          ].map(([icon, contact, sub]) => (
+            <div key={contact} style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '13px 0', borderBottom: '1px solid var(--border)' }}>
+              <div style={{ width: 44, height: 44, borderRadius: 12, background: 'var(--green-pale)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22, flexShrink: 0 }}>{icon}</div>
+              <div>
+                <div style={{ fontWeight: 700, fontSize: 14 }}>{contact}</div>
+                <div style={{ fontSize: 12, color: 'var(--text-3)', marginTop: 2 }}>{sub}</div>
+              </div>
+            </div>
+          ))}
+          <button style={{ width: '100%', marginTop: 16, padding: 13, background: 'var(--accent)', color: 'white', border: 'none', borderRadius: 12, fontFamily: 'var(--font)', fontWeight: 800, fontSize: 14, cursor: 'pointer' }}>
+            📞 Call Support Now
+          </button>
+        </Modal>
+      )}
+
+      {/* ── RATE MODAL ── */}
+      {modal === 'rate' && (
+        <Modal title="⭐ Rate FMN AgriSense" onClose={() => setModal(null)}>
+          <div style={{ textAlign: 'center', padding: '10px 0 20px' }}>
+            <div style={{ fontSize: 56, marginBottom: 12 }}>🌿</div>
+            <div style={{ fontSize: 16, fontWeight: 700, marginBottom: 6 }}>How would you rate this app?</div>
+            <div style={{ fontSize: 13, color: 'var(--text-3)', marginBottom: 20 }}>Your feedback helps us improve FMN AgriSense</div>
+            <div style={{ display: 'flex', justifyContent: 'center', gap: 10, marginBottom: 20 }}>
+              {[1, 2, 3, 4, 5].map(s => (
+                <button key={s} onClick={() => setRating(s)} style={{ fontSize: 40, background: 'none', border: 'none', cursor: 'pointer', opacity: s <= rating ? 1 : 0.3, transition: 'opacity 0.15s, transform 0.15s', transform: s <= rating ? 'scale(1.15)' : 'scale(1)' }}>⭐</button>
+              ))}
+            </div>
+            {rating > 0 && (
+              <div style={{ fontSize: 14, color: 'var(--green)', fontWeight: 700, marginBottom: 16 }}>
+                {['', 'Needs improvement 😐', 'Could be better 🙂', 'Pretty good! 😊', 'Love it! 😃', 'Amazing! 🤩'][rating]}
+              </div>
+            )}
+            {!ratingDone ? (
+              <button
+                onClick={() => { if (rating > 0) setRatingDone(true) }}
+                style={{ width: '100%', padding: 13, background: rating > 0 ? 'var(--green)' : 'var(--border)', color: rating > 0 ? 'white' : 'var(--text-3)', border: 'none', borderRadius: 12, fontFamily: 'var(--font)', fontWeight: 800, fontSize: 14, cursor: rating > 0 ? 'pointer' : 'default' }}>
+                Submit Rating
+              </button>
+            ) : (
+              <div style={{ background: 'var(--green-pale)', borderRadius: 12, padding: 16 }}>
+                <div style={{ fontSize: 32, marginBottom: 8 }}>🎉</div>
+                <div style={{ fontWeight: 800, fontSize: 15, color: 'var(--green-dark)' }}>Thank you!</div>
+                <div style={{ fontSize: 13, color: 'var(--text-3)', marginTop: 4 }}>Your rating helps us serve Nigerian farmers better.</div>
+              </div>
+            )}
+          </div>
+        </Modal>
+      )}
+
+      {/* ── SHARE MODAL ── */}
+      {modal === 'share' && (
+        <Modal title="📤 Share with Farmers" onClose={() => setModal(null)}>
+          <div style={{ background: 'var(--green-pale)', borderRadius: 14, padding: 16, textAlign: 'center', marginBottom: 16 }}>
+            <div style={{ fontSize: 40, marginBottom: 8 }}>🌿</div>
+            <div style={{ fontWeight: 800, fontSize: 15 }}>FMN AgriSense</div>
+            <div style={{ fontSize: 13, color: 'var(--text-2)', marginTop: 6, lineHeight: 1.5 }}>
+              AI-powered cassava disease detection for Nigerian farmers. Free to use!
+            </div>
+          </div>
+          <div style={{ background: '#F5F5F5', borderRadius: 10, padding: '10px 14px', display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
+            <span style={{ flex: 1, fontSize: 13, color: 'var(--text-3)', fontFamily: 'monospace' }}>fmn-cassava-farmer.vercel.app</span>
+            <button onClick={() => { navigator.clipboard?.writeText('fmn-cassava-farmer.vercel.app'); setCopied(true); setTimeout(() => setCopied(false), 2000) }}
+              style={{ background: copied ? 'var(--green)' : 'var(--green-pale)', border: '1.5px solid var(--green-border)', color: copied ? 'white' : 'var(--green)', borderRadius: 8, padding: '5px 12px', cursor: 'pointer', fontFamily: 'var(--font)', fontWeight: 700, fontSize: 12 }}>
+              {copied ? '✓ Copied!' : 'Copy'}
+            </button>
+          </div>
+          <div style={{ fontSize: 13, fontWeight: 700, marginBottom: 10, color: 'var(--text-2)' }}>Share via:</div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2,1fr)', gap: 10 }}>
+            {[['💬 WhatsApp', '#25D366'], ['📱 SMS', 'var(--green)'], ['📘 Facebook', '#1877F2'], ['✉️ Email', 'var(--accent)']].map(([label, bg]) => (
+              <button key={label} style={{ padding: '12px 10px', background: bg, color: 'white', border: 'none', borderRadius: 12, fontFamily: 'var(--font)', fontWeight: 700, fontSize: 13, cursor: 'pointer' }}>
+                {label}
+              </button>
+            ))}
+          </div>
+          <div style={{ fontSize: 12, color: 'var(--text-4)', textAlign: 'center', marginTop: 14 }}>
+            Help fellow farmers protect their crops with AI! 🌱
+          </div>
+        </Modal>
+      )}
     </div>
   )
 }
